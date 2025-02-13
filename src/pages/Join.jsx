@@ -42,24 +42,10 @@ const Join = () => {
   // 모든 입력이 유효한지 확인하는 함수
   const isAllInputValid = useCallback(() => {
     const isValid =
-      inputEmail &&
-      isEmailConf &&
-      inputPw &&
-      isPw2 &&
-      inputName &&
-      profileImage &&
-      ageGroup;
+      inputEmail && isEmailConf && inputPw && isPw2 && inputName && ageGroup;
     setIsButtonActive(isValid);
     return isValid;
-  }, [
-    inputEmail,
-    isEmailConf,
-    inputPw,
-    isPw2,
-    inputName,
-    profileImage,
-    ageGroup,
-  ]);
+  }, [inputEmail, isEmailConf, inputPw, isPw2, inputName, ageGroup]);
 
   // 각 입력 상태가 변경될 때마다 전체 유효성 확인
   useEffect(() => {
@@ -70,7 +56,6 @@ const Join = () => {
     inputPw,
     inputPw2,
     inputName,
-    profileImage,
     ageGroup,
     isAllInputValid,
   ]);
@@ -127,6 +112,7 @@ const Join = () => {
     try {
       const res = await UserApi.emailAuth(inputEmail); // API 호출
       if (res.data.success) {
+        console.log("인증번호 요청 성공 : ", res.data.success);
         setEmailConfMessage("인증번호가 발송되었습니다.");
         setIsButtonActive(true); // 인증번호 발송 성공 시 버튼 활성화
       } else {
@@ -263,17 +249,36 @@ const Join = () => {
   const onSubmit = async () => {
     if (isAllInputValid()) {
       try {
-        const res = await UserApi.register({
-          email: inputEmail && inputEmailConf,
-          password: inputPw && inputPw2,
+        // 기본 사용자 데이터 (이미지 제외)
+        const userData = {
+          email: inputEmail,
+          password: inputPw,
           name: inputName,
-          profileImage: profileImage,
           ageGroup: ageGroup,
-        });
-        console.log("회원가입 성공:", res.data);
-        navigate("/"); // 회원가입 성공 후 메인 페이지로 이동
+        };
+
+        // 이미지가 있는 경우 FormData로 전송
+        if (profileImage instanceof File) {
+          const formData = new FormData();
+          formData.append(
+            "userData",
+            new Blob([JSON.stringify(userData)], {
+              type: "application/json",
+            })
+          );
+          formData.append("profileImage", profileImage);
+
+          const res = await UserApi.joinUserWithImage(formData);
+          console.log("회원가입 성공:", res.data);
+          navigate("/");
+        } else {
+          // 이미지가 없는 경우 JSON으로 전송
+          const res = await UserApi.joinUser(userData);
+          console.log("회원가입 성공:", res.data);
+          navigate("/");
+        }
       } catch (error) {
-        console.error("회원가입 실패:", error);
+        console.error("회원가입 실패:", error.response?.data || error);
       }
     } else {
       console.error("입력 값을 확인하세요.");
@@ -282,16 +287,10 @@ const Join = () => {
 
   const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleEmailChange = (e) => {
-    const newEmail = e.target.value;
-    setInputEmail(newEmail);
-    setIsValidEmail(validateEmail(newEmail));
-  };
+  // const validateEmail = (email) => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
 
   return (
     <>
@@ -335,7 +334,7 @@ const Join = () => {
               value={inputEmailConf}
               changeEvt={onChangeEmailConf}
               btnChild="인증번호 확인"
-              active={isEmailConf}
+              active={isEmailConf && isEmail}
               msg={emailConfMessage}
               msgType={isEmailConf}
               disabled={!inputEmailConf || !isValidEmail}

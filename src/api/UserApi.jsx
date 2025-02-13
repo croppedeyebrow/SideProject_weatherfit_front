@@ -12,18 +12,37 @@ const UserApi = {
     return await axios.post(Common.WWEATHERFIT + "/auth/isunique", dataMap);
   },
 
-  // 회원 가입
-  joinUser: async (email, Password, name, profileImage, ageGroup) => {
-    console.log("회원가입 진입 : " + email);
-    const data = {
-      email: email,
-      Password: Password,
-      name: name,
-      profileImage: profileImage,
-      ageGroup: ageGroup,
-    };
-    return await axios.post(Common.WWEATHERFIT + "/auth/join", data);
+  // 이미지가 있는 회원가입
+  joinUserWithImage: async (formData) => {
+    console.log("이미지 포함 회원가입 진입");
+    return await axios.post(Common.WWEATHERFIT + "/auth/join", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
+
+  // 이미지가 없는 회원가입
+  joinUser: async (userData) => {
+    console.log("기본 회원가입 진입");
+    return await axios.post(Common.WWEATHERFIT + "/auth/join", userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  },
+
+  // joinUser: async (email, password, name, profileImage, ageGroup) => {
+  //   console.log("회원가입 진입 : " + email);
+  //   const data = {
+  //     email: email,
+  //     password: password,
+  //     name: name,
+  //     profileImage: profileImage,
+  //     ageGroup: ageGroup,
+  //   };
+  //   return await axios.post(Common.WEATHERFIT + "/auth/join", data);
+  // },
 
   // 이메일 인증
   emailAuth: async (email) => {
