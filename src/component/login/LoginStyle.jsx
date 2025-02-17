@@ -58,6 +58,7 @@ const LoginFormSection = styled.div`
       flex-direction: column;
       gap: 12px;
       margin-bottom: 20px;
+      width: 100%;
     }
 
     .password {
