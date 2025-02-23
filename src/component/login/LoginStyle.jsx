@@ -1,22 +1,33 @@
 import { styled } from "styled-components";
 
-// 왼쪽 로그인 폼 영역
-const LoginFormSection = styled.div`
-  width: 50%;
-  height: 100%;
+const LoginContainer = styled.div`
+  width: 750px;
+  height: 1000px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  // padding-left: 210px;
+  justify-content: center;
+  align-items: center;
+`;
+
+// 왼쪽 로그인 폼 영역
+const LoginFormSection = styled.div`
+  width: 470px;
+  height: 760px;
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
 
   .logo {
-    margin-top: 216px;
-    width: 100%;
+    width: 300px;
+    height: 130px;
     display: flex;
     justify-content: center;
+    align-items: center;
     img {
-      width: 300px;
-      height: 200px;
+      width: 100%;
+      height: 100%;
+
       object-fit: contain;
     }
   }
@@ -47,18 +58,26 @@ const LoginFormSection = styled.div`
 
   .container {
     width: 100%;
-    max-width: 300px;
-    margin-top: 20px;
+    height: 600px;
+    margin-top: 16px;
+    max-width: 500px;
+
+    gap: 20px;
+
     display: flex;
     flex-direction: column;
+    // justify-content: center;
     align-items: center;
 
     .inputArea {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 20px;
+
       width: 100%;
+
+      padding-top: 60px;
+      padding-bottom: 60px;
     }
 
     .password {
@@ -69,10 +88,9 @@ const LoginFormSection = styled.div`
       margin-top: 25px;
       gap: 10px;
       white-space: nowrap;
-      width: 100%;
+      width: 80%;
 
       .title {
-        margin: 0;
         color: #737f8f;
       }
 
@@ -91,8 +109,8 @@ const LoginFormSection = styled.div`
 // 오른쪽 캐릭터 영역
 const CharacterSection = styled.div`
   position: relative;
-  width: 50%;
-  height: 100%;
+  width: 750px;
+  height: 1000px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,14 +176,16 @@ const CharacterSection = styled.div`
 
 // 메인 컨테이너
 const LoginComp = styled.section`
-  width: 100%;
+  width: 1500px;
   height: 1000px;
-  margin: 0 auto;
+
   position: relative;
   background-color: #f9f9f9;
   display: flex;
+  flex-direction: row;
+  margin: 70px;
   justify-content: center;
 `;
 
-export { LoginFormSection, CharacterSection };
+export { LoginFormSection, CharacterSection, LoginContainer };
 export default LoginComp;

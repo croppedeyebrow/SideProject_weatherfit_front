@@ -91,7 +91,7 @@ const ProfileBottomSection = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #435a76;
+  background-color: #c86;
 `;
 
 const StyleSection = styled.div`

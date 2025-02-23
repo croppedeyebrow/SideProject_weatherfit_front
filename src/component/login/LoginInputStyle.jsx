@@ -7,7 +7,7 @@ const InputComp = styled.div`
 
   input {
     width: 100%;
-    height: 45px;
+    height: 53px;
     padding: 0 15px;
     border: 1px solid #e1e1e1;
     outline: none;
