@@ -19,16 +19,14 @@ const LoginFormSection = styled.div`
   align-items: center;
 
   .logo {
-    width: 300px;
-    height: 130px;
+    width: 100%;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
     img {
-      width: 100%;
-      height: 100%;
-
-      object-fit: contain;
+      width: 300px;
+      height: 300px;
     }
   }
   .password {
@@ -51,7 +49,7 @@ const LoginFormSection = styled.div`
     justify-content: center;
     font-size: 14px;
     font-weight: 400;
-    margin-top: 15px;
+    margin-top: 25px;
     margin-bottom: 15px;
     color: #737f8f;
   }
@@ -72,32 +70,47 @@ const LoginFormSection = styled.div`
     .inputArea {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 30px;
 
-      width: 100%;
+      width: 420px;
 
       padding-top: 60px;
-      padding-bottom: 60px;
     }
 
-    .password {
+    .login-id {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      .login-id-text {
+        color: #737f8f;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+
+    .login-links {
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
       margin-top: 25px;
-      gap: 10px;
+      gap: 20px;
       white-space: nowrap;
-      width: 80%;
+      width: 100%;
 
-      .title {
+      .links-divider {
         color: #737f8f;
       }
 
-      .links a {
+      .links {
         color: #737f8f;
         text-decoration: none;
         font-size: 13px;
+        display: flex;
+
         &:hover {
           color: #007bff;
         }
