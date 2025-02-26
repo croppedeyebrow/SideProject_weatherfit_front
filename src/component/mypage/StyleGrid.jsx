@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSection } from "./MypageStyle";
-import sunnynohand from "../../assets/sunnynohand.png";
-import raniny from "../../assets/raniny.png";
-import snowy from "../../assets/snowy.png";
+import sunnynohand from "../../images/sunnynohand.png";
+import raniny from "../../images/raniny.png";
+import snowy from "../../images/snowy.png";
 
 const StyleGrid = () => {
   // 각 카테고리에 대한 데이터 정의
