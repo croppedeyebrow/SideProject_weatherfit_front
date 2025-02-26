@@ -7,14 +7,12 @@ const MyPageBoard = styled.div`
   justify-content: center;
   background-color: #f9f9f9;
   // padding: 40px 0;
-  border: 1px solid red;
 `;
 
 const MyPageContainer = styled.div`
   width: 1200px;
   display: flex;
   // gap: 40px;
-  border: 1px solid blue;
 `;
 
 const ProfileSection = styled.div`
@@ -26,8 +24,8 @@ const ProfileSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  margin-bottom: 120px;
+  padding-top: 30px;
+  margin-bottom: 60px;
 
   .profile-image-header {
     font-size: 24px;
@@ -67,6 +65,8 @@ const BasicInfoSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid yellow;
+  padding-top: 120px;
 
   .basic-info-title {
     font-size: 20px;
@@ -76,7 +76,7 @@ const BasicInfoSection = styled.div`
     width: 130px;
     height: 22px;
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 30px;
   }
 
   .email-container {
@@ -145,6 +145,7 @@ const StyleSection = styled.div`
   border-radius: 8px;
   padding: 24px;
   border: 1px solid green;
+  padding-top: 140px;
 
   h2 {
     font-size: 20px;
@@ -154,34 +155,51 @@ const StyleSection = styled.div`
   }
 
   .style-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: row;
     gap: 24px;
+    width: 100%;
+    margin-bottom: 40px;
 
     .style-item {
-      aspect-ratio: 1;
-      border-radius: 8px;
+      flex: 1;
+      border-radius: 12px;
       overflow: hidden;
       position: relative;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
 
-      img {
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .style-item-image {
         width: 100%;
-        height: 100%;
+        height: 180px;
         object-fit: cover;
       }
 
-      .like-button {
-        position: absolute;
-        bottom: 12px;
-        right: 12px;
-        width: 32px;
-        height: 32px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
+      .style-item-content {
+        padding: 16px;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 1)
+        );
+      }
+
+      .style-item-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .style-item-description {
+        font-size: 14px;
+        color: #666;
       }
     }
   }

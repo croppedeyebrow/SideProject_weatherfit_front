@@ -109,7 +109,7 @@ const UserProfile = () => {
             position: "relative",
             marginLeft: "auto",
             border: "1px solid #262626",
-            backgroundColor: "#ffffff",
+            backgroundColor: "rgba(143,143,143,1)",
             width: "16px",
             height: "16px",
             borderRadius: "50%",
@@ -124,8 +124,8 @@ const UserProfile = () => {
             src={editIcon}
             alt="수정"
             style={{
-              width: "12px",
-              height: "12px",
+              width: "8px",
+              height: "8px",
             }}
           />
         </div>
@@ -140,7 +140,7 @@ const UserProfile = () => {
             position: "relative",
             marginLeft: "auto",
             border: "1px solid #262626",
-            backgroundColor: "#ffffff",
+            backgroundColor: "rgba(143,143,143,1)",
             width: "16px",
             height: "16px",
             borderRadius: "50%",
@@ -155,8 +155,8 @@ const UserProfile = () => {
             src={editIcon}
             alt="수정"
             style={{
-              width: "12px",
-              height: "12px",
+              width: "8px",
+              height: "8px",
             }}
           />
         </div>
@@ -171,7 +171,7 @@ const UserProfile = () => {
             position: "relative",
             marginLeft: "auto",
             border: "1px solid #262626",
-            backgroundColor: "#ffffff",
+            backgroundColor: "rgba(143,143,143,1)",
             width: "16px",
             height: "16px",
             borderRadius: "50%",
@@ -186,8 +186,8 @@ const UserProfile = () => {
             src={editIcon}
             alt="수정"
             style={{
-              width: "12px",
-              height: "12px",
+              width: "8px",
+              height: "8px",
             }}
           />
         </div>
