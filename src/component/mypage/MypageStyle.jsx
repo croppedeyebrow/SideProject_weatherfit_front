@@ -205,10 +205,115 @@ const StyleSection = styled.div`
   }
 `;
 
+// StyleGrid 컴포넌트에서 사용하는 스타일 컴포넌트들
+const TabContainer = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+  height: 140px;
+  margin: 0 auto 30px;
+  border: 1px solid red;
+  flex-direction: column;
+`;
+
+const TabItem = styled.div`
+  flex: 1;
+  padding: 15px 10px;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  color: ${(props) => (props.active ? "rgba(0,0,0,1)" : "rgba(201,201,201,1)")};
+  font-weight: ${(props) => (props.active ? "500" : "500")};
+  font-family: "Pretendard-Regular";
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 하단 표시선 */
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0.3px;
+    z-index: 1;
+  }
+
+  /* 구분선 */
+  &:not(:last-child) {
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 20px; /* 구분선의 세로 길이 */
+      background-color: rgba(201, 201, 201, 1);
+    }
+  }
+
+  &:hover {
+    color: ${(props) =>
+      props.active ? "rgba(0,0,0,1)" : "rgba(201,201,201,1)"};
+  }
+`;
+
+const ContentContainer = styled.div`
+  padding: 20px;
+  min-height: 300px;
+`;
+
+const SelectContainer = styled.div`
+  width: 400px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  // align-items: center;
+  justify-content: center;
+  border: 1px solid blue;
+`;
+
+const DetailContainer = styled.div`
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyleButton = styled.button`
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: ${(props) => (props.active ? "#333333" : "#E0E0E0")};
+`;
+
 export {
   MyPageBoard,
   MyPageContainer,
   ProfileSection,
   BasicInfoSection,
   StyleSection,
+  TabContainer,
+  TabItem,
+  ContentContainer,
+  SelectContainer,
+  DetailContainer,
+  StyleButton,
 };
