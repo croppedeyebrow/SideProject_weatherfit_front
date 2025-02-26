@@ -139,6 +139,8 @@ const BasicInfoSection = styled.div`
   }
 `;
 
+// 스타일 그리드 컴포넌트
+
 const StyleSection = styled.div`
   flex: 1;
   background: #fff;
@@ -212,26 +214,31 @@ const TabContainer = styled.div`
   justify-content: flex-start;
   position: relative;
   width: 100%;
-  height: 140px;
+  height: 100px;
   margin: 0 auto 30px;
   border: 1px solid red;
   flex-direction: column;
+  gap: 8px;
 `;
 
 const TabItem = styled.div`
   flex: 1;
-  padding: 15px 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 10px;
   font-size: 20px;
   cursor: pointer;
   position: relative;
   color: ${(props) => (props.active ? "rgba(0,0,0,1)" : "rgba(201,201,201,1)")};
   font-weight: ${(props) => (props.active ? "500" : "500")};
-  font-family: "Pretendard-Regular";
+
   text-align: center;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 22px;
+  height: 50px;
 
   /* 하단 표시선 */
   &:before {
@@ -267,25 +274,33 @@ const TabItem = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  padding: 20px;
+  padding: 10px;
   min-height: 300px;
+  border: 1px solid orange;
+  width: 786px;
+  height: 470px;
+  display: grid;
+  grid-template-columns: repeat(5, 150px);
+  grid-template-rows: repeat(3, 150px);
+  gap: 6px;
+  justify-content: center;
 `;
 
 const SelectContainer = styled.div`
-  width: 400px;
+  width: 330px;
   height: 50px;
   display: flex;
   flex-direction: row;
-  // align-items: center;
+  align-items: center;
   justify-content: center;
   border: 1px solid blue;
 `;
 
 const DetailContainer = styled.div`
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 18px;
   align-items: center;
-  background-color: #fafafa;
+  padding-left: 4px;
   display: flex;
   flex-direction: row;
 `;
@@ -294,14 +309,143 @@ const StyleButton = styled.button`
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 70px;
-  height: 36px;
+  width: 80px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 30px;
+  border: 1px solid rgba(201, 201, 201, 1);
+  background-color: ${(props) =>
+    props.active ? "rgba(78,78,78,1)" : "rgba(255, 255, 255, 1)"};
+  color: ${(props) => (props.active ? "#FFFFFF" : "rgba(93, 94, 98, 1)")};
+  font-size: 14px;
 
   &:hover {
-    background-color: ${(props) => (props.active ? "#333333" : "#E0E0E0")};
+    background-color: ${(props) =>
+      props.active ? "rgba(78,78,78,1)" : "#E0E0E0"};
+    color: ${(props) => (props.active ? "#FFFFFF" : "rgba(93, 94, 98, 1)")};
+  }
+`;
+
+const GridBox = styled.div`
+  width: 150px;
+  height: 150px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #4981f8;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover:before {
+    transform: translateY(0);
+  }
+
+  .grid-image {
+    width: 150px;
+    height: 150px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #999;
+  }
+  .grid-like-icon {
+    position: absolute;
+    top: 106px;
+    left: 106px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid blue;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 8px;
+`;
+
+const PageButton = styled.button`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid ${(props) => (props.active ? "#4981f8" : "#ddd")};
+  background-color: ${(props) => (props.active ? "#4981f8" : "#fff")};
+  color: ${(props) => (props.active ? "#fff" : "#333")};
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: ${(props) => (props.active ? "#4981f8" : "#f0f0f0")};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+const PageArrow = styled.button`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 export {
@@ -316,4 +460,8 @@ export {
   SelectContainer,
   DetailContainer,
   StyleButton,
+  GridBox,
+  PaginationContainer,
+  PageButton,
+  PageArrow,
 };
