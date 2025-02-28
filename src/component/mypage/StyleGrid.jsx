@@ -13,8 +13,46 @@ import {
   PageArrow,
 } from "./MypageStyle";
 import likeIcon from "../../images/heart_button.png";
+import CoordinateApi from "../../api/CoordinateApi";
 
 const StyleGrid = () => {
+  // 스타일별 데이터를 저장할 상태 추가
+  const [minimalStyles, setMinimalStyles] = useState([]);
+  const [modernStyles, setModernStyles] = useState([]);
+  const [casualStyles, setCasualStyles] = useState([]);
+  const [streetStyles, setStreetStyles] = useState([]);
+  const [livelyStyles, setLivelyStyles] = useState([]);
+  const [luxuryStyles, setLuxuryStyles] = useState([]);
+
+  // 컴포넌트 마운트 시 스타일 데이터 로드
+  useEffect(() => {
+    const fetchStyleData = async () => {
+      try {
+        const minimal = await CoordinateApi.getMinimalPreferenceList();
+        setMinimalStyles(minimal);
+
+        const modern = await CoordinateApi.getModernPreferenceList();
+        setModernStyles(modern);
+
+        const casual = await CoordinateApi.getCasualPreferenceList();
+        setCasualStyles(casual);
+
+        const street = await CoordinateApi.getStreetPreferenceList();
+        setStreetStyles(street);
+
+        const lively = await CoordinateApi.getLivelyPreferenceList();
+        setLivelyStyles(lively);
+
+        const luxury = await CoordinateApi.getLuxuryPreferenceList();
+        setLuxuryStyles(luxury);
+      } catch (error) {
+        console.error("스타일 데이터 로드 실패:", error);
+      }
+    };
+
+    fetchStyleData();
+  }, []);
+
   // 각 카테고리에 대한 데이터 정의
   const styleCategories = [
     {
@@ -53,38 +91,40 @@ const StyleGrid = () => {
       title: "스타일별",
       content: "스타일별 콘텐츠가 여기에 표시됩니다.",
       details: ["미니멀", "모던", "캐주얼", "스트릿", "러블리", "럭셔리"],
-      gridItems: [
-        "미니멀 룩 1",
-        "미니멀 룩 2",
-        "미니멀 룩 3",
-        "미니멀 룩 4",
-        "미니멀 룩 5",
-        "모던 룩 1",
-        "모던 룩 2",
-        "모던 룩 3",
-        "모던 룩 4",
-        "모던 룩 5",
-        "캐주얼 룩 1",
-        "캐주얼 룩 2",
-        "캐주얼 룩 3",
-        "캐주얼 룩 4",
-        "캐주얼 룩 5",
-        "스트릿 룩 1",
-        "스트릿 룩 2",
-        "스트릿 룩 3",
-        "스트릿 룩 4",
-        "스트릿 룩 5",
-        "러블리 룩 1",
-        "러블리 룩 2",
-        "러블리 룩 3",
-        "러블리 룩 4",
-        "러블리 룩 5",
-        "럭셔리 룩 1",
-        "럭셔리 룩 2",
-        "럭셔리 룩 3",
-        "럭셔리 룩 4",
-        "럭셔리 룩 5",
-      ],
+      gridItems:
+        minimalStyles.length > 0 ? minimalStyles : ["미니멀 스타일 로딩 중..."],
+      getItems: (detail) => {
+        switch (detail.toLowerCase()) {
+          case "미니멀":
+            return minimalStyles.length > 0
+              ? minimalStyles
+              : ["미니멀 스타일 로딩 중..."];
+          case "모던":
+            return modernStyles.length > 0
+              ? modernStyles
+              : ["모던 스타일 로딩 중..."];
+          case "캐주얼":
+            return casualStyles.length > 0
+              ? casualStyles
+              : ["캐주얼 스타일 로딩 중..."];
+          case "스트릿":
+            return streetStyles.length > 0
+              ? streetStyles
+              : ["스트릿 스타일 로딩 중..."];
+          case "러블리":
+            return livelyStyles.length > 0
+              ? livelyStyles
+              : ["러블리 스타일 로딩 중..."];
+          case "럭셔리":
+            return luxuryStyles.length > 0
+              ? luxuryStyles
+              : ["럭셔리 스타일 로딩 중..."];
+          default:
+            return minimalStyles.length > 0
+              ? minimalStyles
+              : ["스타일 로딩 중..."];
+        }
+      },
     },
     {
       title: "상황별",
@@ -152,16 +192,21 @@ const StyleGrid = () => {
 
   // 선택된 스타일에 따라 필터링된 그리드 아이템 가져오기
   const getFilteredGridItems = () => {
-    const allItems = styleCategories[activeTab].gridItems;
+    const category = styleCategories[activeTab];
 
-    // 선택된 스타일이 없으면 모든 아이템 표시
+    // 선택된 스타일이 없으면 기본 아이템 표시
     if (activeDetails.length === 0) {
-      return allItems;
+      return category.gridItems;
     }
 
-    // 선택된 스타일에 맞는 아이템만 필터링
+    // 스타일별 탭에서는 getItems 함수 사용
+    if (activeTab === 1 && category.getItems) {
+      return category.getItems(activeDetails[0]);
+    }
+
+    // 다른 탭에서는 기존 필터링 로직 사용
     const selectedStyle = activeDetails[0].toLowerCase();
-    return allItems.filter((item) =>
+    return category.gridItems.filter((item) =>
       item.toLowerCase().includes(selectedStyle)
     );
   };
