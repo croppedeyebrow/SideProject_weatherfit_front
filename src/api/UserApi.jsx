@@ -235,6 +235,85 @@ const UserApi = {
       throw error;
     }
   },
+
+  // 좋아요 추가
+  addLike: async (userId, coordinateId) => {
+    console.log("좋아요 추가 요청 시작");
+    console.log("요청 데이터:", { userId, coordinateId });
+
+    try {
+      const response = await jsonInstance.post("/member/like/add", {
+        userId: userId,
+        coordinateId: coordinateId,
+      });
+      console.log("좋아요 추가 응답:", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        console.error("서버 응답 오류:", {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          data: error.response.data,
+        });
+      } else {
+        console.error("요청 오류:", error.message);
+      }
+      throw error;
+    }
+  },
+
+  // 좋아요 삭제
+  deleteLike: async (userId, coordinateId) => {
+    console.log("좋아요 삭제 요청 시작");
+    console.log("요청 데이터:", { userId, coordinateId });
+
+    try {
+      const response = await jsonInstance.delete("/member/like/delete", {
+        data: {
+          userId: userId,
+          coordinateId: coordinateId,
+        },
+      });
+      console.log("좋아요 삭제 응답:", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        console.error("서버 응답 오류:", {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          data: error.response.data,
+        });
+      } else {
+        console.error("요청 오류:", error.message);
+      }
+      throw error;
+    }
+  },
+
+  // 사용자의 좋아요 중 미니멀 스타일만 가져오기
+  getMinimalLikes: async (userId) => {
+    console.log("미니멀 스타일 좋아요 목록 요청 시작");
+    console.log("요청 데이터:", { userId });
+
+    try {
+      const response = await jsonInstance.get(`/member/like/minimal`, {
+        params: { userId },
+      });
+      console.log("미니멀 스타일 좋아요 목록 응답:", response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        console.error("서버 응답 오류:", {
+          status: error.response.status,
+          statusText: error.response.statusText,
+          data: error.response.data,
+        });
+      } else {
+        console.error("요청 오류:", error.message);
+      }
+      throw error;
+    }
+  },
 };
 
 export default UserApi;
