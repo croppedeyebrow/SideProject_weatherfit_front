@@ -4,7 +4,6 @@ import JoinComp from "../component/join/JoinStyle";
 import { InputButton, Input } from "../component/join/JoinInputstyle";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import userIcon from "../images/header_person.png";
 
 const Join = () => {
   // 입력 칸에 이메일, 이메일 인증, 비밀번호, 이름 입력 / 프로필, 나이대별 선택
@@ -410,22 +409,6 @@ const Join = () => {
         {/* 왼쪽: 회원가입 폼 */}
         <div className="container">
           <h2>회원가입</h2>
-          <p>웨더핏의 회원이 되기 위한 과정이예요 :) </p>
-
-          {/* 프로필 사진 */}
-          {/* <div className="profile">
-            <img
-              src={profileImage ? URL.createObjectURL(profileImage) : userIcon}
-              alt="프로필 미리보기"
-            />
-            <label htmlFor="fileUpload"></label>
-            <input
-              type="file"
-              id="fileUpload"
-              accept="image/*"
-              onChange={onChangeProfileImage}
-            />
-          </div> */}
           {step === 1 ? (
             <>
               <div className="inputArea">
