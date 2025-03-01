@@ -11,9 +11,10 @@ import {
   PaginationContainer,
   PageButton,
   PageArrow,
-} from "./MypageStyle";
+} from "./MypageStyle.jsx";
 import likeIcon from "../../images/heart_button.png";
 import CoordinateApi from "../../api/CoordinateApi";
+import Common from "../../utils/Common";
 
 const StyleGrid = () => {
   // 스타일별 데이터를 저장할 상태 추가
@@ -28,22 +29,30 @@ const StyleGrid = () => {
   useEffect(() => {
     const fetchStyleData = async () => {
       try {
+        console.log("스타일 데이터 로드 시작");
+
         const minimal = await CoordinateApi.getMinimalPreferenceList();
+        console.log("미니멀 스타일 데이터:", minimal);
         setMinimalStyles(minimal);
 
         const modern = await CoordinateApi.getModernPreferenceList();
+        console.log("모던 스타일 데이터:", modern);
         setModernStyles(modern);
 
         const casual = await CoordinateApi.getCasualPreferenceList();
+        console.log("캐주얼 스타일 데이터:", casual);
         setCasualStyles(casual);
 
         const street = await CoordinateApi.getStreetPreferenceList();
+        console.log("스트릿 스타일 데이터:", street);
         setStreetStyles(street);
 
         const lively = await CoordinateApi.getLivelyPreferenceList();
+        console.log("러블리 스타일 데이터:", lively);
         setLivelyStyles(lively);
 
         const luxury = await CoordinateApi.getLuxuryPreferenceList();
+        console.log("럭셔리 스타일 데이터:", luxury);
         setLuxuryStyles(luxury);
       } catch (error) {
         console.error("스타일 데이터 로드 실패:", error);
@@ -94,6 +103,7 @@ const StyleGrid = () => {
       gridItems:
         minimalStyles.length > 0 ? minimalStyles : ["미니멀 스타일 로딩 중..."],
       getItems: (detail) => {
+        console.log("선택된 스타일:", detail);
         switch (detail.toLowerCase()) {
           case "미니멀":
             return minimalStyles.length > 0
@@ -218,6 +228,21 @@ const StyleGrid = () => {
     return filteredItems.slice(startIndex, startIndex + itemsPerPage);
   };
 
+  // 이미지 URL 생성 함수
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+
+    // 이미지 경로가 전체 URL인 경우
+    if (imagePath.startsWith("http")) {
+      return imagePath;
+    }
+
+    // 상대 경로인 경우 서버 URL과 결합
+    return `${Common.WWEATHERFIT}${
+      imagePath.startsWith("/") ? "" : "/"
+    }${imagePath}`;
+  };
+
   // 총 페이지 수 계산
   const totalPages = Math.ceil(getFilteredGridItems().length / itemsPerPage);
 
@@ -289,7 +314,7 @@ const StyleGrid = () => {
           {styleCategories.map((category, index) => (
             <TabItem
               key={category.title}
-              active={activeTab === index}
+              $active={activeTab === index}
               onClick={() => setActiveTab(index)}
             >
               {category.title}
@@ -301,7 +326,7 @@ const StyleGrid = () => {
           {styleCategories[activeTab].details.map((detail) => (
             <StyleButton
               key={detail}
-              active={activeDetails.includes(detail)}
+              $active={activeDetails.includes(detail)}
               onClick={() => toggleDetail(detail)}
             >
               {detail}
@@ -322,8 +347,80 @@ const StyleGrid = () => {
                   : "1px solid #ddd",
             }}
           >
-            <div className="grid-image">{item.charAt(0)}</div>
-            <div className="grid-like-icon">
+            {/* 백엔드에서 받아온 데이터 구조에 따라 표시 */}
+            {typeof item === "string" ? (
+              // 로딩 중이거나 문자열 데이터인 경우
+              <div className="grid-image">
+                <div style={{ padding: "20px", textAlign: "center" }}>
+                  {item}
+                </div>
+              </div>
+            ) : (
+              // 객체 데이터인 경우 (백엔드에서 받아온 실제 데이터)
+              <>
+                <div className="grid-image">
+                  {item.coordinateImg ? (
+                    <img
+                      src={getImageUrl(item.coordinateImg)}
+                      alt={item.preference || "착장 이미지"}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        console.error("이미지 로드 실패:", item.coordinateImg);
+                        e.target.src =
+                          "https://via.placeholder.com/150?text=No+Image";
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#f0f0f0",
+                      }}
+                    >
+                      이미지 없음
+                    </div>
+                  )}
+                </div>
+                <div className="grid-info" style={{ padding: "8px" }}>
+                  <div
+                    className="grid-preference"
+                    style={{
+                      fontSize: "14px",
+                      marginBottom: "4px",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {item.preference || "스타일 정보 없음"}
+                  </div>
+                </div>
+              </>
+            )}
+            <div
+              className="grid-like-icon"
+              style={{
+                position: "absolute",
+                top: "8px",
+                right: "8px",
+                zIndex: 2,
+                backgroundColor: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "50%",
+                padding: "4px",
+              }}
+              onClick={(e) => {
+                e.stopPropagation(); // 그리드 아이템 클릭 이벤트 전파 방지
+                // 좋아요 기능 구현 (향후 추가)
+              }}
+            >
               <img
                 src={likeIcon}
                 alt="like"
