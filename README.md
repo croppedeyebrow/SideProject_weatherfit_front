@@ -15,13 +15,42 @@ Weather-Fit은 현재 날씨와 시간별 예보를 기반으로 사용자에게
 
 ### 2. API 통신 구현 (완료)
 
-- axios 인스턴스 설정 (axiosInstance)
+- axios 인스턴스 설정
+  - 기본 URL 설정 (Common.WWEATHERFIT)
+  - withCredentials 설정으로 쿠키 기반 인증 지원
+  - JSON 요청을 위한 헤더 설정
 - 날씨 API 구현 (WeatherApi.jsx)
   - 현재 날씨 조회 (getCurrentWeather)
   - 시간별 날씨 예보 조회 (getWeatherForecast)
-  - 날씨 기반 스타일 조회 (getWeatherStyles)
-  - 좋아요 토글 기능 (toggleStyleLike)
+  - 날씨 기반 스타일 조회 (getWeatherBasedStyles)
+  - 날씨 기반 좋아요 스타일 조회 (getWeatherBasedLikes)
+  - 날씨 기반 스타일 좋아요 토글 (toggleWeatherStyleLike)
+- 로그인 API 구현 (LoginApi.jsx)
+  - 로그인 기능 (login)
+- 사용자 API 구현 (UserApi.jsx)
+  - 중복 체크 (checkUnique)
+  - 회원가입 (joinUser)
+  - 이메일 인증 (emailAuth)
+  - 이메일 인증 코드 확인 (emailAuthCheck)
+  - 로그인 상태 확인 (checkLoginStatus)
+  - 로그아웃 (logout)
+  - 프로필 이미지 업데이트 (updateProfileImage)
+  - 프로필 취향 업데이트 (updateProfileTaste)
+  - 프로필 연령대 업데이트 (updateProfileAgegroup)
+  - 비밀번호 확인 (verifyPassword)
+  - 비밀번호 업데이트 (updatePassword)
+  - 좋아요 추가/삭제 (addLike/deleteLike)
+  - 스타일별 좋아요 목록 조회 (getMinimalLikes, getModernLikes 등)
+  - 날씨별 좋아요 목록 조회 (getHotLikes, getWarmLikes 등)
+  - TPO별 좋아요 목록 조회 (getDateLikes, getWorkLikes 등)
+- 좌표 API 구현 (CoordinateApi.jsx)
+  - 착장 정보 전체 조회 (getCoordinateList)
+  - 취향 목록 조회 (getPreferenceList)
+  - 스타일별 취향 착장 조회 (getMinimalPreferenceList, getModernPreferenceList 등)
 - 에러 처리 및 로깅 구현
+  - try-catch 패턴을 통한 에러 처리
+  - 콘솔 로깅을 통한 요청/응답 데이터 추적
+  - 에러 발생 시 상세 정보 로깅
 
 ### 3. 날씨 정보 표시 컴포넌트 개발 (완료)
 
@@ -43,7 +72,7 @@ Weather-Fit은 현재 날씨와 시간별 예보를 기반으로 사용자에게
 - 시간별 날씨 표시 방식 최적화
 - 사용자 피드백 반영
 
-### 5. Mypage 기능 개발 (완료)
+### 5. Mypage 기능 개발 (진행 중)
 
 - 회원 정보 수정 기능 구현
   - 사용자 프로필 정보 수정
@@ -52,7 +81,6 @@ Weather-Fit은 현재 날씨와 시간별 예보를 기반으로 사용자에게
 - 사용자 설정 관리
   - 알림 설정
   - 테마 설정
-  - 언어 설정
 
 ## 개발 과정에서의 시행착오와 배운 점
 
@@ -62,17 +90,20 @@ Weather-Fit은 현재 날씨와 시간별 예보를 기반으로 사용자에게
 
 - 초기에는 각 API 요청마다 base URL을 직접 지정하는 방식으로 구현했으나, 코드 중복이 발생했습니다.
 - API 요청 시 에러 처리가 일관되지 않았습니다.
+- API 응답 구조가 일관되지 않아 처리하기 어려웠습니다.
 
 **해결책:**
 
 - axiosInstance를 도입하여 공통 설정(기본 URL, 헤더 등)을 중앙화했습니다.
 - Promise.all을 활용하여 여러 API 요청을 병렬로 처리하여 성능을 개선했습니다.
 - 일관된 에러 처리 패턴을 적용하여 코드의 안정성을 높였습니다.
+- API 응답 구조를 표준화하여 일관된 방식으로 처리하도록 했습니다.
 
 **배운 점:**
 
 - API 통신 구조화의 중요성과 코드 재사용성 향상 방법
 - 비동기 처리 최적화 기법
+- API 응답 구조 표준화의 중요성
 
 ### 2. 날씨 데이터 표시 방식
 
@@ -148,10 +179,21 @@ Weather-Fit은 현재 날씨와 시간별 예보를 기반으로 사용자에게
 - 보안 요구사항을 충족시키는 방법
 - 상태 관리 및 데이터 지속성 확보 방법
 
+## 향후 개선 계획
+
+1. 날씨 기반 스타일 추천 기능 강화
+2. 사용자 위치 기반 날씨 정보 제공
+3. 날씨 알림 기능 추가
+4. 성능 최적화 및 코드 리팩토링
+5. 테스트 코드 작성 및 테스트 커버리지 향상
+
 ## 기술 스택
 
 - **프론트엔드:** React, styled-components
 - **API 통신:** Axios
 - **상태 관리:** React Hooks (useState, useEffect)
 - **라우팅:** React Router
+- **인증:** JWT (JSON Web Tokens)
+- **스타일링:** CSS-in-JS, styled-components
+- **유틸리티:** date-fns, lodash
 - **기타:** JavaScript (ES6+)
