@@ -1,70 +1,157 @@
-# Getting Started with Create React App
+# Weather-Fit 프로젝트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 프로젝트 개요
 
-## Available Scripts
+Weather-Fit은 현재 날씨와 시간별 예보를 기반으로 사용자에게 적절한 옷차림을 추천하는 웹 애플리케이션입니다. React를 기반으로 개발되었으며, 사용자 친화적인 UI와 실시간 날씨 정보를 제공합니다.
 
-In the project directory, you can run:
+## 개발 진척도
 
-### `yarn start`
+### 1. 프로젝트 초기 설정 및 구조화 (완료)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 프로젝트 초기화
+- 디렉토리 구조 설정 (components, api, common 등)
+- 기본 라우팅 설정
+- 스타일링을 위한 styled-components 설정
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. API 통신 구현 (완료)
 
-### `yarn test`
+- axios 인스턴스 설정 (axiosInstance)
+- 날씨 API 구현 (WeatherApi.jsx)
+  - 현재 날씨 조회 (getCurrentWeather)
+  - 시간별 날씨 예보 조회 (getWeatherForecast)
+  - 날씨 기반 스타일 조회 (getWeatherStyles)
+  - 좋아요 토글 기능 (toggleStyleLike)
+- 에러 처리 및 로깅 구현
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. 날씨 정보 표시 컴포넌트 개발 (완료)
 
-### `yarn build`
+- WeatherMain 컴포넌트 구현
+  - 현재 날씨 및 예보 데이터 통합 관리
+  - 시간별 날씨 카드 생성 로직 구현
+  - 로딩 및 에러 상태 처리
+- WeatherCard 컴포넌트 구현
+  - 날씨 정보 시각화 (온도, 습도, 풍속 등)
+  - 날씨 상태에 따른 아이콘 표시
+  - 좌표 정보 표시 기능 추가
+- WeatherCardCarousel 컴포넌트 구현
+  - 슬라이드 기능 구현
+  - 반응형 디자인 적용
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 4. UI/UX 개선 (진행 중)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 날씨 카드 디자인 개선
+- 시간별 날씨 표시 방식 최적화
+- 사용자 피드백 반영
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. Mypage 기능 개발 (완료)
 
-### `yarn eject`
+- 회원 정보 수정 기능 구현
+  - 사용자 프로필 정보 수정
+  - 비밀번호 변경 기능
+  - 이미지 업로드 및 프로필 사진 변경
+- 사용자 설정 관리
+  - 알림 설정
+  - 테마 설정
+  - 언어 설정
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 개발 과정에서의 시행착오와 배운 점
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. API 통신 구조화
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**시행착오:**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- 초기에는 각 API 요청마다 base URL을 직접 지정하는 방식으로 구현했으나, 코드 중복이 발생했습니다.
+- API 요청 시 에러 처리가 일관되지 않았습니다.
 
-## Learn More
+**해결책:**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- axiosInstance를 도입하여 공통 설정(기본 URL, 헤더 등)을 중앙화했습니다.
+- Promise.all을 활용하여 여러 API 요청을 병렬로 처리하여 성능을 개선했습니다.
+- 일관된 에러 처리 패턴을 적용하여 코드의 안정성을 높였습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**배운 점:**
 
-### Code Splitting
+- API 통신 구조화의 중요성과 코드 재사용성 향상 방법
+- 비동기 처리 최적화 기법
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 2. 날씨 데이터 표시 방식
 
-### Analyzing the Bundle Size
+**시행착오:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- 초기에는 날씨 데이터를 그대로 표시하여 사용자 경험이 떨어졌습니다.
+- 시간별 예보 표시 방식이 직관적이지 않았습니다.
 
-### Making a Progressive Web App
+**해결책:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 날씨 데이터 포맷팅 함수를 구현하여 사용자 친화적인 형식으로 변환했습니다.
+- '현재 날씨', '1시간 후', '2시간 후' 등의 직관적인 시간 표시 방식을 도입했습니다.
+- 온도, 습도 등의 수치를 소수점 첫째자리까지 표시하여 정확성을 높였습니다.
 
-### Advanced Configuration
+**배운 점:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- 데이터 시각화의 중요성과 사용자 경험 향상 방법
+- 복잡한 데이터를 직관적으로 표현하는 기법
 
-### Deployment
+### 3. 컴포넌트 구조화
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**시행착오:**
 
-### `yarn build` fails to minify
+- 초기에는 모든 로직을 하나의 컴포넌트에 구현하여 코드가 복잡해졌습니다.
+- 상태 관리가 비효율적이었습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**해결책:**
+
+- 컴포넌트를 기능별로 분리하여 책임을 명확히 했습니다.
+- 상태 관리를 최적화하여 불필요한 리렌더링을 방지했습니다.
+- 재사용 가능한 컴포넌트를 설계하여 코드 중복을 줄였습니다.
+
+**배운 점:**
+
+- React 컴포넌트 설계 원칙과 상태 관리 최적화 방법
+- 컴포넌트 재사용성 향상 기법
+
+### 4. 날씨 API 응답 구조 대응
+
+**시행착오:**
+
+- 백엔드 API 응답 구조가 프론트엔드 요구사항과 일치하지 않았습니다.
+- 날씨 상태 코드와 프론트엔드 표시 방식 간의 불일치가 있었습니다.
+
+**해결책:**
+
+- API 응답 데이터를 프론트엔드 요구사항에 맞게 변환하는 매핑 함수를 구현했습니다.
+- 날씨 상태 코드를 사용자 친화적인 텍스트로 변환하는 로직을 추가했습니다.
+- 좌표 정보를 포함한 모든 필요한 데이터를 카드에 표시하도록 개선했습니다.
+
+**배운 점:**
+
+- 백엔드-프론트엔드 데이터 구조 불일치 해결 방법
+- 데이터 변환 및 매핑 기법
+
+### 5. Mypage 기능 개발
+
+**시행착오:**
+
+- 회원 정보 수정 시 이미지 업로드 과정에서 파일 크기 제한과 형식 검증이 어려웠습니다.
+- 비밀번호 변경 시 보안 요구사항을 충족시키는 것이 복잡했습니다.
+- 사용자 설정 관리 시 상태 유지가 어려웠습니다.
+
+**해결책:**
+
+- 이미지 업로드 시 파일 크기와 형식을 검증하는 유틸리티 함수를 구현했습니다.
+- 비밀번호 변경 시 정규식을 활용하여 보안 요구사항을 검증하는 로직을 추가했습니다.
+- 사용자 설정을 로컬 스토리지에 저장하여 상태를 유지하도록 했습니다.
+
+**배운 점:**
+
+- 파일 업로드 및 검증 기법
+- 보안 요구사항을 충족시키는 방법
+- 상태 관리 및 데이터 지속성 확보 방법
+
+## 기술 스택
+
+- **프론트엔드:** React, styled-components
+- **API 통신:** Axios
+- **상태 관리:** React Hooks (useState, useEffect)
+- **라우팅:** React Router
+- **기타:** JavaScript (ES6+)
