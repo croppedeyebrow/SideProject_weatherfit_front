@@ -54,6 +54,35 @@ export const getWeatherForecast = async () => {
   }
 };
 
+// 현재 날씨 조건과 사용자의 선호 스타일을 기반으로 랜덤 스타일을 추천하는 함수
+export const getCurrentWeatherBasedRandomStyles = async (userId) => {
+  try {
+    console.log(`현재 날씨 기반 랜덤 스타일 추천 요청: userId=${userId}`);
+    const response = await axiosInstance.get(
+      `/styles/current/random?userId=${userId}`
+    );
+
+    // 응답 데이터 로깅
+    const styles = response.data;
+    console.log("현재 날씨 기반 랜덤 스타일 추천 응답:", styles);
+
+    if (styles && styles.length > 0) {
+      console.log("첫 번째 추천 스타일 샘플:", {
+        스타일ID: styles[0].id,
+        스타일명: styles[0].name,
+        이미지URL: styles[0].imageUrl,
+        날씨조건: styles[0].weatherCondition,
+        설명: styles[0].description,
+      });
+    }
+
+    return styles;
+  } catch (error) {
+    console.error("현재 날씨 기반 랜덤 스타일 추천 요청 실패:", error);
+    throw error;
+  }
+};
+
 // 날씨 정보를 기반으로 스타일 추천을 가져오는 함수
 export const getWeatherBasedStyles = async (weatherCondition) => {
   try {
